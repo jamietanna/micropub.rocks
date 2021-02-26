@@ -1,0 +1,45 @@
+version: '3'
+services:
+ # Nginx server configuration
+  web:
+    image: nginx:1.17
+    container_name: webserver
+    depends_on:
+      #- docker-mysql
+      - php
+    links:
+      - docker-mysql
+      - php
+    volumes:
+      - .:/var/www/html
+      - ./nginx:/etc/nginx/conf.d/
+    ports:
+      - "8080:80"
+ # Php-fpm configuration
+  php:
+    build:
+      context: .
+      dockerfile: ./php-fpm.dockerfile
+    links:
+      - docker-mysql
+    volumes:
+      - .:/var/www/html
+      - .:/app
+        #- ./php.ini:/usr/local/etc/php/php.ini
+ # Mysql configuration
+  docker-mysql:
+    image: mysql:5.7
+    container_name: docker-mysql-demo
+    restart: always
+    environment:
+        - MYSQL_DATABASE=micropubrocks
+        - MYSQL_ROOT_PASSWORD=my-secret-pw
+          #- MYSQL_USER=micropubrocks
+          #- MYSQL_PASSWORD=micropubrocks
+    ports:
+        - "3306:3306"
+  redis:
+    image: redis:6-alpine
+    ports:
+      - 6379:6379
+    restart: always
