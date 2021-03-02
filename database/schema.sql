@@ -83,3 +83,12 @@ CREATE TABLE `feature_results` (
   `updated_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE `client_access_tokens` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `client_id` varchar(255) NOT NULL,
+  `created_at` varchar(255) DEFAULT NULL,
+  `last_used` varchar(255) DEFAULT NULL,
+  `token` varchar(128) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
